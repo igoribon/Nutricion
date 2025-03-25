@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesiones con Orientadora</title>
+
+	<style>
+
+body {
+background-color: rgb(238, 238, 238);
+font-family: 'Courier New', Courier, monospace;
+}
+
+main {
+    padding-inline: 4rem;
+    padding-top: 0.8rem;
+    line-height: 2rem;
+}
+
+.contenido{
+	display:flex;
+    height: 70%;
+    gap: 2rem;
+    width: 90%;
+    gap: 3rem;
+    justify-content: center;  
+}
+
+h1{
+    font-size: 2.2rem;
+ text-align: center;
+ line-height: auto;
+}
+
+p{
+    font-size: 0.8rem;
+    text-align: center;
+    bottom: 2rem;
+    position: fixed; 
+}
+
+
+li{
+list-style:none;
+margin-left: 0;
+}
+
+h2{
+    font-size: 1.4rem;
+	color:rgb(87, 6, 87);	
+}
+
+ .botones{
+    display:flex;
+    flex-direction: column;
+    padding-top: 6rem;
+    gap: 1rem;
+} 
+
+button {
+font-size: 1.5rem;
+padding: 0.7rem;
+
+background-color: white;
+color: rgb(0, 0, 0);
+border: 0.05rem solid black;
+
+}
+
+button:hover{
+    background-color: rgb(255, 170, 0);
+    color: black;
+    cursor: pointer;
+    border: 0.05rem solid black;
+}
+
+.resaltado{
+    background-color: rgba(210, 166, 236, 0.411);
+    padding-inline:0.2rem;
+   
+      
+}
+
+
+.alumnos{
+    width: 33%;
+}
+.alumnos ul{
+    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;   
+}
+
+.alumnos ul li{
+    cursor: pointer;
+}
+
+.alumnos ul li:hover{
+   background-color:  rgba(210, 166, 236, 0.411);
+}
+
+.resultado{
+    line-height: 1.3rem;
+}
+
+@media only screen and (max-width: 900px) {
+
+    .alumnos ul{
+    display: inline;
+}
+
+p{
+    position: relative;
+    padding-top: 2rem;
+}
+
+h2{
+    font-size: 1rem;
+}
+
+}
+
+	</style>
+</head>
+
+<body>
+    <main>
+    <h1>SESIONES CON ORIENTADORA</h1>
+    
+	<div class="contenido">
+	    <div class="alumnos">
+            <h2>Lista de alumnos</h2>
+                <ul id="grupo">
+                    <li> Igor</li>
+                    <li>David</li>
+                    <li>Lucía</li>
+                    <li>Moisés</li>
+                    <li>Najwa</li>
+                    <li>Paco</li>
+                    <li>Thais</li>
+                    <li>Belén</li>
+                    <li>Gaizka</li>
+                    <li>Azalfa</li>
+                    <li>Erika</li>
+                    <li>Nahia</li>
+                    <li>Youssef</li>
+                    <li>Silvia</li>
+                    <li>Nerea</li>
+                    <li>Maham</li>
+                    <li>Aleeza</li>
+                    <li>Alejandro</li>
+                    <li>Carla</li>
+                    <li>Allan</li>
+                </ul>	
+        </div>
+ 
+        <div class="botones">
+            <button id="filtra">→</button>
+            <button id="vacia">🗑️ </button>
+        </div>
+
+        <div>
+            <h2>Orden de elección de sesiones</h2>
+            <div id="resultado" class="resultado"></div>
+        </div>
+</div>
+
+        <p>Esta página se utiliza para mostrar el orden de los alumnos del Bootcamp de Full-Stack para que puedan escoger las sesiones orientación personal con Estíbaliz</p>
+    
+</main>
+
+        <script>
+            let alumnosSel = [];
+            let exluidas = [];
+            //let restoMezclado = [];
+           // let clienta = [];
+            const alumnos = [
+                            "Igor",
+                            "David",
+                            "Lucía",
+                            "Moisés",
+                            "Najwa",
+                            "Paco",
+                            "Thais",
+                            "Belén",
+                            "Gaizka",
+                            "Azalfa",
+                            "Erika",
+                            "Nahia",
+                            "Youssef",
+                            "Silvia",
+                            "Nerea",
+                            "Maham",
+                            "Aleeza",
+                            "Alejandro",
+                            "Carla",
+                            "Allan"
+                            ];
+
+//elementoLista = document.getElementById('alimentos');
+const botonAlumnos = document.querySelectorAll("#grupo li");//cambiado
+const resultado = document.getElementById("resultado");
+const filtra = document.getElementById("filtra");
+const vacia = document.getElementById("vacia");
+
+botonAlumnos.forEach((li) => {
+  li.addEventListener("click", () => agregarAlumno(li));
+});       
+          
+function agregarAlumno(li) {
+  li.classList.toggle("resaltado");
+
+  if (li.classList.contains("resaltado")) {
+    alumnosSel.push(li.innerText);
+  } else {
+    const indice = alumnosSel.indexOf(li.innerText);
+    alumnosSel.splice(indice, 1);
+  }
+}
+
+
+filtra.addEventListener("click", () => {
+//console.log (...alumnosSel);
+
+ const excluidos = alumnos.filter(alumno => !alumnosSel.includes(alumno)); 
+     limpiar();
+  
+  //desordenar el array
+  excluidos.sort(() => Math.random()- .5);
+  
+    //pintar opciones alumnosSel
+    alumnosSel.forEach(alumno => {
+    let nuevoAlumno= document.createElement('li');
+    nuevoAlumno.textContent = alumno;
+    nuevoAlumno.classList.add("resaltado");
+    resultado.appendChild(nuevoAlumno);
+	});
+	//pintar el resto
+    excluidos.forEach(alumno => {
+    let nuevoElemento = document.createElement('li');
+    nuevoElemento.textContent = alumno;
+    nuevoElemento.classList.add("naranja");
+    resultado.appendChild(nuevoElemento);
+	});
+ 
+
+  });
+vacia.addEventListener("click", ()=> limpiar());
+	
+    // Función para limpiar las listas de resultados
+    function limpiar() {
+        // Vaciar la nueva lista
+        while (resultado.firstChild) {
+            resultado.removeChild(resultado.firstChild); 
+        }
+
+    }
+        </script>
+
+</body>
+
+</html>
